@@ -1,13 +1,4 @@
 import java.util.Scanner;
-<<<<<<< HEAD
-=======
-
-public class Alex {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        Task[] tasks = new Task[100];
-        int taskCount = 0;
->>>>>>> 2fcc2a0a2a91ae0b29838bbf662114246c13e86a
 
 public class Alex {
     // We’ll store our tasks in an array.
@@ -19,7 +10,6 @@ public class Alex {
         System.out.println("What can I do for you?");
         System.out.println();
 
-<<<<<<< HEAD
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -61,7 +51,7 @@ public class Alex {
     private static void handleList() {
         System.out.println("    ____________________________________________________________");
         if (taskCount == 0) {
-            System.out.println("     You have no tasks in your list. May...maybe we should hang out for a while...");
+            System.out.println("     You have nothing in your Todo. May...maybe we should hang out for a while...");
         } else {
             System.out.println("     Here are the tasks in your list:");
             for (int i = 0; i < taskCount; i++) {
@@ -84,7 +74,7 @@ public class Alex {
             }
             tasks[index - 1].setMark();
             System.out.println("    ____________________________________________________________");
-            System.out.println("     Sugoi!! I've marked this task as done:");
+            System.out.println("     Sugoii~!! I've marked this task as done:");
             System.out.println("       [" + tasks[index - 1].getTaskType() + "][" 
                                + tasks[index - 1].getStatusIcon() + "] " 
                                + tasks[index - 1].description);
@@ -198,68 +188,12 @@ public class Alex {
         printAddTaskMessage(eventTask);
     }
 
-    /**
-     * Print the lines corresponding to adding a task:
-     * 
-     *     ____________________________________________________________
-     *      Got it. I've added this task:
-     *       [T][ ] borrow book
-     *      Now you have 5 tasks in the list.
-     *     ____________________________________________________________
-     */
+
     private static void printAddTaskMessage(Task task) {
         System.out.println("    ____________________________________________________________");
-        System.out.println("     Got it. I've added this task:");
+        System.out.println("     Anata no tame ni janai!! I've added this task:");
         System.out.println("       [" + task.getTaskType() + "][" + task.getStatusIcon() + "] " + task.description);
         System.out.println("     Now you have " + taskCount + " tasks in the list.");
         System.out.println("    ____________________________________________________________");
-=======
-        String input;
-        do {
-            input = scanner.nextLine();
-
-            if (input.equalsIgnoreCase("list")) {
-                if (taskCount == 0) {
-                    System.out.println("No tasks");
-                } else {
-                    System.out.println("    ____________________________________________________________");
-                    for (int i = 0; i < taskCount; i++) {
-                        System.out.println("    "+(i + 1) + ".["+tasks[i].getStatusIcon()+"] " + tasks[i].description);
-                    }
-                    System.out.println("    ____________________________________________________________");
-                }
-            }else if (input.contains("unmark")) {
-                //unmarked placed before to prevent triggering on "mark"
-                System.out.println("    ____________________________________________________________");
-                int target = Integer.parseInt(input.substring(input.indexOf(" ")+ 1, input.length()));
-                tasks[target - 1].setUnmark();
-                System.out.println("    Unmarked "+tasks[target-1].description);
-                System.out.println("    ____________________________________________________________");
-            } 
-            else if (input.contains("mark")) {
-                System.out.println("    ____________________________________________________________");
-                int target = Integer.parseInt(input.substring(input.indexOf(" ")+ 1, input.length()));
-                tasks[target - 1].setMark();
-                System.out.println("    Marked "+tasks[target-1].description);
-                System.out.println("    ____________________________________________________________");
-            } 
-            else if (!input.equalsIgnoreCase("bye")) {
-                if(taskCount < 100){
-                    tasks[taskCount] = new Task(input);
-
-                    taskCount++;
-                    System.out.println("    ____________________________________________________________");
-                    System.out.println("    added: " + input);
-                    System.out.println("    ____________________________________________________________");
-                }
-                
-            }
-        } while (!input.equalsIgnoreCase("bye"));
-        System.out.println("    ____________________________________________________________");
-
-        System.out.println("    Bye. Hope to see you again soon!");
-        System.out.println("    ____________________________________________________________");
-        scanner.close();
->>>>>>> 2fcc2a0a2a91ae0b29838bbf662114246c13e86a
     }
 }
