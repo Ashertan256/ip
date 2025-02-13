@@ -1,4 +1,4 @@
-//level 5. Text for commit.
+//level 5. Text for commit. 
 import java.util.Scanner;
 
 public class Alex {
