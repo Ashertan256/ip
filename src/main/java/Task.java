@@ -30,4 +30,8 @@ public class Task {
         // By default, just return the description
         return description;
     }
+
+    public void delete() {
+    }
+
 }
