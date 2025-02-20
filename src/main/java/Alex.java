@@ -1,10 +1,10 @@
 //level 5. Text for commit. 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Alex {
-    // We’ll store our tasks in an array.
-    private static Task[] tasks = new Task[100];
-    private static int taskCount = 0;
+    // We’ll store our tasks in an arraylist
+    private static ArrayList<Task> tasks = new ArrayList<>();
 
     public static void main(String[] args) {
         System.out.println("Hello! I'm Alex");
@@ -37,6 +37,8 @@ public class Alex {
                 handleDeadline(input);
             } else if (input.startsWith("event")) {
                 handleEvent(input);
+            } else if (input.startsWith("delete")) {
+                handleDelete(input);
             } else {
                 // Unknown command
                 System.out.println("    BAKA BAKA! I don't understand!!~");
@@ -51,12 +53,12 @@ public class Alex {
      */
     private static void handleList() {
         System.out.println("    ____________________________________________________________");
-        if (taskCount == 0) {
+        if (tasks.size() == 0) {
             System.out.println("     You have nothing in your Todo. May...maybe we should hang out for a while...");
         } else {
             System.out.println("     Here are the tasks in your list:");
-            for (int i = 0; i < taskCount; i++) {
-                Task t = tasks[i];
+            for (int i = 0; i < tasks.size(); i++) {
+                Task t = tasks.get(i);
                 System.out.println("     " + (i + 1) + ".[" + t.getTaskType() + "][" + t.getStatusIcon() + "] " + t);
             }
         }
@@ -70,15 +72,15 @@ public class Alex {
     private static void handleMark(String input) {
         try {
             int index = Integer.parseInt(input.substring(4).trim());
-            if (index < 1 || index > taskCount) {
+            if (index < 1 || index > tasks.size()) {
                 throw new IndexOutOfBoundsException();
             }
-            tasks[index - 1].setMark();
+            tasks.get(index - 1).setMark();
             System.out.println("    ____________________________________________________________");
             System.out.println("     Sugoii~!! I've marked this task as done:");
-            System.out.println("       [" + tasks[index - 1].getTaskType() + "][" 
-                               + tasks[index - 1].getStatusIcon() + "] " 
-                               + tasks[index - 1].description);
+            System.out.println("       [" + tasks.get(index - 1).getTaskType() + "][" 
+                               + tasks.get(index - 1).getStatusIcon() + "] " 
+                               + tasks.get(index - 1).description);
             System.out.println("    ____________________________________________________________");
         } catch (Exception e) {
             System.out.println("    BAKA! I bet you weren't listening to me again! Specify a valid task number to mark.");
@@ -93,15 +95,15 @@ public class Alex {
         // Example input: "unmark 3"
         try {
             int index = Integer.parseInt(input.substring(6).trim());
-            if (index < 1 || index > taskCount) {
+            if (index < 1 || index > tasks.size()) {
                 throw new IndexOutOfBoundsException();
             }
-            tasks[index - 1].setUnmark();
+            tasks.get(index - 1).setUnmark();
             System.out.println("    ____________________________________________________________");
             System.out.println("     Gambatte, I've marked this task as not done yet:");
-            System.out.println("       [" + tasks[index - 1].getTaskType() + "][" 
-                               + tasks[index - 1].getStatusIcon() + "] " 
-                               + tasks[index - 1].description);
+            System.out.println("       [" + tasks.get(index - 1).getTaskType() + "][" 
+                               + tasks.get(index - 1).getStatusIcon() + "] " 
+                               + tasks.get(index - 1).description);
             System.out.println("    ____________________________________________________________");
         } catch (Exception e) {
             System.out.println("    BAKA! Please specify a valid task number to unmark.");
@@ -122,9 +124,7 @@ public class Alex {
 
         // Add the todo
         Todo todo = new Todo(description);
-        tasks[taskCount] = todo;
-        taskCount++;
-
+        tasks.add(todo);
         printAddTaskMessage(todo);
     }
 
@@ -151,8 +151,7 @@ public class Alex {
         }
 
         Deadline deadlineTask = new Deadline(description, by);
-        tasks[taskCount] = deadlineTask;
-        taskCount++;
+        tasks.add(deadlineTask);
 
         printAddTaskMessage(deadlineTask);
     }
@@ -183,18 +182,36 @@ public class Alex {
         }
 
         Event eventTask = new Event(description, start, end);
-        tasks[taskCount] = eventTask;
-        taskCount++;
+        tasks.add(eventTask);
 
         printAddTaskMessage(eventTask);
     }
-
+    private static void handleDelete(String input) {
+        try {
+            // Adjusted to remove the "delete" command (6 characters) correctly.
+            int index = Integer.parseInt(input.substring(6).trim());
+            if (index < 1 || index > tasks.size()) {
+                throw new IndexOutOfBoundsException();
+            }
+            Task deletedTask = tasks.get(index - 1);
+            deletedTask.delete();
+            tasks.remove(index - 1);
+            System.out.println("    ____________________________________________________________");
+            System.out.println("     H-Hey! Don’t get the wrong idea! I-it's not like I want to delete this task for you or anything… Hmph! But don’t think I’ll do this every time, okay?! Jeez…");
+            System.out.println("       [" + deletedTask.getTaskType() + "][" 
+                               + deletedTask.getStatusIcon() + "] " 
+                               + deletedTask.description);
+            System.out.println("    ____________________________________________________________");
+        } catch (Exception e) {
+            System.out.println("    BAKA! I bet you weren't listening to me again! Specify a valid task number to delete.");
+        }
+    }
 
     private static void printAddTaskMessage(Task task) {
         System.out.println("    ____________________________________________________________");
         System.out.println("     Anata no tame ni janai!! I've added this task:");
         System.out.println("       [" + task.getTaskType() + "][" + task.getStatusIcon() + "] " + task.description);
-        System.out.println("     Now you have " + taskCount + " tasks in the list.");
+        System.out.println("     Now you have " + tasks.size() + " tasks in the list.");
         System.out.println("    ____________________________________________________________");
     }
 }
