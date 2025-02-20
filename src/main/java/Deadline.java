@@ -12,4 +12,7 @@ public class Deadline extends Task {
         // e.g. "return book (by: Sunday)"
         return super.description + " (by: " + deadline + ")";
     }
+    public String getDeadline() {
+        return deadline;
+    }
 }

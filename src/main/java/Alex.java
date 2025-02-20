@@ -1,12 +1,19 @@
-//level 5. Text for commit. 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.IOException;
 
 public class Alex {
-    // We’ll store our tasks in an arraylist
+    // Store tasks in an ArrayList
     private static ArrayList<Task> tasks = new ArrayList<>();
+    private static final String FILE_PATH = "tasks.txt";
 
     public static void main(String[] args) {
+        // Load tasks from disk on startup
+        loadTasks();
+        
         System.out.println("Hello! I'm Alex");
         System.out.println("What can I do for you?");
         System.out.println();
@@ -29,16 +36,22 @@ public class Alex {
                 handleList();
             } else if (input.startsWith("mark")) {
                 handleMark(input);
+                saveTasks();
             } else if (input.startsWith("unmark")) {
                 handleUnmark(input);
+                saveTasks();
             } else if (input.startsWith("todo")) {
                 handleTodo(input);
+                saveTasks();
             } else if (input.startsWith("deadline")) {
                 handleDeadline(input);
+                saveTasks();
             } else if (input.startsWith("event")) {
                 handleEvent(input);
+                saveTasks();
             } else if (input.startsWith("delete")) {
                 handleDelete(input);
+                saveTasks();
             } else {
                 // Unknown command
                 System.out.println("    BAKA BAKA! I don't understand!!~");
@@ -46,6 +59,76 @@ public class Alex {
         }
 
         scanner.close();
+    }
+
+    /**
+     * Loads tasks from the file on startup.
+     */
+    private static void loadTasks() {
+        File file = new File(FILE_PATH);
+        if (!file.exists()) {
+            return;
+        }
+        try (Scanner fileScanner = new Scanner(file)) {
+            while (fileScanner.hasNextLine()) {
+                String line = fileScanner.nextLine();
+                String[] parts = line.split("\\|");
+                // Trim each part
+                for (int i = 0; i < parts.length; i++) {
+                    parts[i] = parts[i].trim();
+                }
+                if (parts.length < 3) {
+                    continue;
+                }
+                String taskType = parts[0];
+                boolean isDone = Boolean.parseBoolean(parts[1]);
+                String description = parts[2];
+                Task task = null;
+                if (taskType.equals("T")) {
+                    task = new Todo(description);
+                } else if (taskType.equals("D") && parts.length >= 4) {
+                    String deadline = parts[3];
+                    task = new Deadline(description, deadline);
+                } else if (taskType.equals("E") && parts.length >= 5) {
+                    String start = parts[3];
+                    String end = parts[4];
+                    task = new Event(description, start, end);
+                }
+                if (task != null) {
+                    if (isDone) {
+                        task.setMark();
+                    }
+                    tasks.add(task);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error loading tasks: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Saves the current task list to the file.
+     */
+    private static void saveTasks() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
+            for (Task task : tasks) {
+                StringBuilder sb = new StringBuilder();
+                sb.append(task.getTaskType()).append("|")
+                  .append(task.isDone).append("|")
+                  .append(task.description);
+                if (task instanceof Deadline) {
+                    Deadline d = (Deadline) task;
+                    sb.append("|").append(d.getDeadline());
+                } else if (task instanceof Event) {
+                    Event e = (Event) task;
+                    sb.append("|").append(e.getStart()).append("|").append(e.getEnd());
+                }
+                writer.write(sb.toString());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("Error saving tasks: " + e.getMessage());
+        }
     }
 
     /**
@@ -67,7 +150,6 @@ public class Alex {
 
     /**
      * Marks a task (based on the number given after 'mark').
-     * Example: "mark 2" -> mark task #2
      */
     private static void handleMark(String input) {
         try {
@@ -89,10 +171,8 @@ public class Alex {
 
     /**
      * Unmarks a task (based on the number given after 'unmark').
-     * Example: "unmark 2" -> unmark task #2
      */
     private static void handleUnmark(String input) {
-        // Example input: "unmark 3"
         try {
             int index = Integer.parseInt(input.substring(6).trim());
             if (index < 1 || index > tasks.size()) {
@@ -112,17 +192,13 @@ public class Alex {
 
     /**
      * Adds a Todo task.
-     * Example input: "todo borrow book"
      */
     private static void handleTodo(String input) {
-        // Remove "todo" from the front
         String description = input.substring(4).trim();
         if (description.isEmpty()) {
             System.out.println("    BAKA! The description of a todo cannot be empty.");
             return;
         }
-
-        // Add the todo
         Todo todo = new Todo(description);
         tasks.add(todo);
         printAddTaskMessage(todo);
@@ -130,65 +206,53 @@ public class Alex {
 
     /**
      * Adds a Deadline task.
-     * Example input: "deadline return book /by Sunday"
-     * We parse out the description and the "by" part.
      */
     private static void handleDeadline(String input) {
-        // Remove "deadline" from the front
         String withoutCommand = input.substring(8).trim();
-        // We expect something like "return book /by Sunday"
         int byIndex = withoutCommand.indexOf("/by");
         if (byIndex == -1) {
             System.out.println("    BAKA! You must specify '/by <deadline>'.");
             return;
         }
         String description = withoutCommand.substring(0, byIndex).trim();
-        String by = withoutCommand.substring(byIndex + 3).trim(); // skip "/by"
-
+        String by = withoutCommand.substring(byIndex + 3).trim();
         if (description.isEmpty() || by.isEmpty()) {
             System.out.println("    BAKA! The description or deadline is invalid.");
             return;
         }
-
         Deadline deadlineTask = new Deadline(description, by);
         tasks.add(deadlineTask);
-
         printAddTaskMessage(deadlineTask);
     }
 
     /**
      * Adds an Event task.
-     * Example input: "event project meeting /from Mon 2pm /to 4pm"
      */
     private static void handleEvent(String input) {
-        // Remove "event" from the front
         String withoutCommand = input.substring(5).trim();
-        // We expect something like "project meeting /from Mon 2pm /to 4pm"
         int fromIndex = withoutCommand.indexOf("/from");
         int toIndex = withoutCommand.indexOf("/to");
-
         if (fromIndex == -1 || toIndex == -1 || toIndex < fromIndex) {
             System.out.println("    BAKA! You must specify '/from <start>' and '/to <end>'.");
             return;
         }
-
         String description = withoutCommand.substring(0, fromIndex).trim();
         String start = withoutCommand.substring(fromIndex + 5, toIndex).replaceFirst(" ", "").trim();
         String end = withoutCommand.substring(toIndex + 3).replaceFirst(" ", "").trim();
-
         if (description.isEmpty() || start.isEmpty() || end.isEmpty()) {
             System.out.println("    BAKA! The description, start, or end time is invalid.");
             return;
         }
-
         Event eventTask = new Event(description, start, end);
         tasks.add(eventTask);
-
         printAddTaskMessage(eventTask);
     }
+
+    /**
+     * Deletes a task (based on the number given after 'delete').
+     */
     private static void handleDelete(String input) {
         try {
-            // Adjusted to remove the "delete" command (6 characters) correctly.
             int index = Integer.parseInt(input.substring(6).trim());
             if (index < 1 || index > tasks.size()) {
                 throw new IndexOutOfBoundsException();
