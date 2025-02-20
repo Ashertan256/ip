@@ -14,4 +14,11 @@ public class Event extends Task {
         // e.g. "project meeting (from: Mon 2pm to: 4pm)"
         return super.description + " (from: " + start + " to: " + end + ")";
     }
+    public String getStart() {
+        return start;
+    }
+    
+    public String getEnd() {
+        return end;
+    
 }
