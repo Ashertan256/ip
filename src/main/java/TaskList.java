@@ -75,4 +75,26 @@ public class TaskList {
         ui.showMessage("       [" + t.getTaskType() + "][" + t.getStatusIcon() + "] " + t.description);
         ui.showMessage("    ____________________________________________________________");
     }
+
+    public void findTasks(String keyword, Ui ui) {
+        ArrayList<Task> matchingTasks = new ArrayList<>();
+    
+        for (Task t : tasks) {
+            if (t.description.toLowerCase().contains(keyword.toLowerCase())) {//lowercase to remove case sensitivity
+                matchingTasks.add(t);
+            }
+        }
+        ui.showMessage("    ____________________________________________________________");
+        if (matchingTasks.isEmpty()) {
+            ui.showMessage("    No tasks found matching \"" + keyword + "\".");
+        } else {
+            ui.showMessage("    Here are the matching tasks in your list:");
+            for (int i = 0; i < matchingTasks.size(); i++) {
+                Task t = matchingTasks.get(i);
+                ui.showMessage("     " + (i + 1) + ".[" + t.getTaskType() + "][" + t.getStatusIcon() + "] " + t);
+            }
+        }
+        ui.showMessage("    ____________________________________________________________");
+    }
+    
 }

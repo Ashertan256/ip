@@ -72,4 +72,15 @@ public class CommandHandlers {
             ui.showMessage("    Oops! Specify a valid task number to delete.");
         }
     }
+
+    public static void handleFind(String input, TaskList tasks, Ui ui) {
+        // Extract the search keyword
+        String keyword = input.substring(4).trim(); // remove the word "find"
+        if (keyword.isEmpty()) {
+            ui.showMessage("    Oops! Please specify a keyword to search for.");
+            return;
+        }
+    
+        tasks.findTasks(keyword, ui);
+    }
 }
