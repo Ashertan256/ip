@@ -26,7 +26,7 @@ public class Alex {
             // Check for "bye" first
             if (input.equalsIgnoreCase("bye")) {
                 System.out.println("    ____________________________________________________________");
-                System.out.println("    Ba...Bak...Baka Baka!! I didn't want to talk to you anyway....");
+                System.out.println("    Goodbye! Have a great day ahead!");
                 System.out.println("    ____________________________________________________________");
                 break;
             }
@@ -54,7 +54,7 @@ public class Alex {
                 saveTasks();
             } else {
                 // Unknown command
-                System.out.println("    BAKA BAKA! I don't understand!!~");
+                System.out.println("    I'm sorry about that! Could you please rephrase or give me more details?");
             }
         }
 
@@ -137,7 +137,7 @@ public class Alex {
     private static void handleList() {
         System.out.println("    ____________________________________________________________");
         if (tasks.size() == 0) {
-            System.out.println("     You have nothing in your Todo. May...maybe we should hang out for a while...");
+            System.out.println("     You have nothing in your Todo. Go and enjoy your day!");
         } else {
             System.out.println("     Here are the tasks in your list:");
             for (int i = 0; i < tasks.size(); i++) {
@@ -159,13 +159,13 @@ public class Alex {
             }
             tasks.get(index - 1).setMark();
             System.out.println("    ____________________________________________________________");
-            System.out.println("     Sugoii~!! I've marked this task as done:");
+            System.out.println("     Great~!! I've marked this task as done:");
             System.out.println("       [" + tasks.get(index - 1).getTaskType() + "][" 
                                + tasks.get(index - 1).getStatusIcon() + "] " 
                                + tasks.get(index - 1).description);
             System.out.println("    ____________________________________________________________");
         } catch (Exception e) {
-            System.out.println("    BAKA! I bet you weren't listening to me again! Specify a valid task number to mark.");
+            System.out.println("   Specify a valid task number to mark.");
         }
     }
 
@@ -180,13 +180,13 @@ public class Alex {
             }
             tasks.get(index - 1).setUnmark();
             System.out.println("    ____________________________________________________________");
-            System.out.println("     Gambatte, I've marked this task as not done yet:");
+            System.out.println("     Good job, I've marked this task as not done yet:");
             System.out.println("       [" + tasks.get(index - 1).getTaskType() + "][" 
                                + tasks.get(index - 1).getStatusIcon() + "] " 
                                + tasks.get(index - 1).description);
             System.out.println("    ____________________________________________________________");
         } catch (Exception e) {
-            System.out.println("    BAKA! Please specify a valid task number to unmark.");
+            System.out.println("    Oops! Please specify a valid task number to unmark.");
         }
     }
 
@@ -196,7 +196,7 @@ public class Alex {
     private static void handleTodo(String input) {
         String description = input.substring(4).trim();
         if (description.isEmpty()) {
-            System.out.println("    BAKA! The description of a todo cannot be empty.");
+            System.out.println("    Oops! The description of a todo cannot be empty.");
             return;
         }
         Todo todo = new Todo(description);
@@ -211,13 +211,13 @@ public class Alex {
         String withoutCommand = input.substring(8).trim();
         int byIndex = withoutCommand.indexOf("/by");
         if (byIndex == -1) {
-            System.out.println("    BAKA! You must specify '/by <deadline>'.");
+            System.out.println("    Oops! You must specify '/by <deadline>'.");
             return;
         }
         String description = withoutCommand.substring(0, byIndex).trim();
         String by = withoutCommand.substring(byIndex + 3).trim();
         if (description.isEmpty() || by.isEmpty()) {
-            System.out.println("    BAKA! The description or deadline is invalid.");
+            System.out.println("    Oops! The description or deadline is invalid.");
             return;
         }
         Deadline deadlineTask = new Deadline(description, by);
@@ -233,14 +233,14 @@ public class Alex {
         int fromIndex = withoutCommand.indexOf("/from");
         int toIndex = withoutCommand.indexOf("/to");
         if (fromIndex == -1 || toIndex == -1 || toIndex < fromIndex) {
-            System.out.println("    BAKA! You must specify '/from <start>' and '/to <end>'.");
+            System.out.println("    Oops! You must specify '/from <start>' and '/to <end>'.");
             return;
         }
         String description = withoutCommand.substring(0, fromIndex).trim();
         String start = withoutCommand.substring(fromIndex + 5, toIndex).replaceFirst(" ", "").trim();
         String end = withoutCommand.substring(toIndex + 3).replaceFirst(" ", "").trim();
         if (description.isEmpty() || start.isEmpty() || end.isEmpty()) {
-            System.out.println("    BAKA! The description, start, or end time is invalid.");
+            System.out.println("    Oops! The description, start, or end time is invalid.");
             return;
         }
         Event eventTask = new Event(description, start, end);
@@ -261,19 +261,19 @@ public class Alex {
             deletedTask.delete();
             tasks.remove(index - 1);
             System.out.println("    ____________________________________________________________");
-            System.out.println("     H-Hey! Don’t get the wrong idea! I-it's not like I want to delete this task for you or anything… Hmph! But don’t think I’ll do this every time, okay?! Jeez…");
+            System.out.println("    The task has been removed. Let me know if you need anything else!");
             System.out.println("       [" + deletedTask.getTaskType() + "][" 
                                + deletedTask.getStatusIcon() + "] " 
                                + deletedTask.description);
             System.out.println("    ____________________________________________________________");
         } catch (Exception e) {
-            System.out.println("    BAKA! I bet you weren't listening to me again! Specify a valid task number to delete.");
+            System.out.println("    Oops! Specify a valid task number to delete.");
         }
     }
 
     private static void printAddTaskMessage(Task task) {
         System.out.println("    ____________________________________________________________");
-        System.out.println("     Anata no tame ni janai!! I've added this task:");
+        System.out.println("    I've added this task:");
         System.out.println("       [" + task.getTaskType() + "][" + task.getStatusIcon() + "] " + task.description);
         System.out.println("     Now you have " + tasks.size() + " tasks in the list.");
         System.out.println("    ____________________________________________________________");
