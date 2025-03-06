@@ -27,11 +27,6 @@ public class Task {
 
     @Override
     public String toString() {
-        // By default, just return the description
         return description;
     }
-
-    public void delete() {
-    }
-
 }

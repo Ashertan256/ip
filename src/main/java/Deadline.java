@@ -9,9 +9,9 @@ public class Deadline extends Task {
 
     @Override
     public String toString() {
-        // e.g. "return book (by: Sunday)"
         return super.description + " (by: " + deadline + ")";
     }
+
     public String getDeadline() {
         return deadline;
     }
