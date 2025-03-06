@@ -24,6 +24,8 @@ public class Parser {
             CommandHandlers.handleEvent(input, tasks, ui);
         } else if (input.startsWith("delete")) {
             CommandHandlers.handleDelete(input, tasks, ui);
+        } else if (input.startsWith("find")) {
+            CommandHandlers.handleFind(input, tasks, ui);
         } else {
             ui.showMessage("    I'm sorry about that! Could you please rephrase or give me more details?");
         }
