@@ -1,12 +1,21 @@
 import java.util.Locale;
 
+/**
+ * Parses and processes user commands related to task management.
+ */
 public class Parser {
 
     public static boolean isByeCommand(String fullCommand) {
         return fullCommand.equalsIgnoreCase("bye");
     }
 
-
+    /**
+     * Handles user commands by determining the appropriate action and executing it.
+     *
+     * @param fullCommand The full user input command.
+     * @param tasks The TaskList containing the tasks.
+     * @param ui The UI object used to display messages.
+     */
     public static void handleCommand(String fullCommand, TaskList tasks, Ui ui) {
         String input = fullCommand.trim().toLowerCase(Locale.ROOT);
 

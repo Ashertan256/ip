@@ -1,5 +1,16 @@
+/**
+ * Provides static methods to handle various user commands related to task management.
+ * Commands include marking, unmarking, adding, deleting, and searching for tasks.
+ */
 public class CommandHandlers {
 
+    /**
+     * Handles the command to mark a task as completed.
+     *
+     * @param input The user input containing the task number.
+     * @param tasks The TaskList containing the tasks.
+     * @param ui The UI object used to display messages.
+     */
     public static void handleMark(String input, TaskList tasks, Ui ui) {
         try {
             int index = Integer.parseInt(input.substring(4).trim()) - 1;
@@ -9,6 +20,13 @@ public class CommandHandlers {
         }
     }
 
+    /**
+     * Handles the command to unmark a task as not completed.
+     *
+     * @param input The user input containing the task number.
+     * @param tasks The TaskList containing the tasks.
+     * @param ui The UI object used to display messages.
+     */
     public static void handleUnmark(String input, TaskList tasks, Ui ui) {
         try {
             int index = Integer.parseInt(input.substring(6).trim()) - 1;
@@ -28,6 +46,13 @@ public class CommandHandlers {
         tasks.addTask(todo, ui);
     }
 
+    /**
+     * Handles the command to add a new deadline task.
+     *
+     * @param input The user input containing the task description and deadline.
+     * @param tasks The TaskList where the new task will be added.
+     * @param ui The UI object used to display messages.
+     */
     public static void handleDeadline(String input, TaskList tasks, Ui ui) {
         String withoutCommand = input.substring(8).trim();
         int byIndex = withoutCommand.indexOf("/by");
@@ -45,6 +70,13 @@ public class CommandHandlers {
         tasks.addTask(deadlineTask, ui);
     }
 
+    /**
+     * Handles the command to add a new event task.
+     *
+     * @param input The user input containing the task description, start time, and end time.
+     * @param tasks The TaskList where the new task will be added.
+     * @param ui The UI object used to display messages.
+     */
     public static void handleEvent(String input, TaskList tasks, Ui ui) {
         String withoutCommand = input.substring(5).trim();
         int fromIndex = withoutCommand.indexOf("/from");
@@ -64,6 +96,13 @@ public class CommandHandlers {
         tasks.addTask(eventTask, ui);
     }
 
+    /**
+     * Handles the command to delete a task.
+     *
+     * @param input The user input containing the task number to delete.
+     * @param tasks The TaskList containing the tasks.
+     * @param ui The UI object used to display messages.
+     */
     public static void handleDelete(String input, TaskList tasks, Ui ui) {
         try {
             int index = Integer.parseInt(input.substring(6).trim()) - 1;
@@ -73,6 +112,13 @@ public class CommandHandlers {
         }
     }
 
+    /**
+     * Handles the command to find tasks based on a keyword.
+     *
+     * @param input The user input containing the keyword to search for.
+     * @param tasks The TaskList containing the tasks.
+     * @param ui The UI object used to display messages.
+     */
     public static void handleFind(String input, TaskList tasks, Ui ui) {
         // Extract the search keyword
         String keyword = input.substring(4).trim(); // remove the word "find"

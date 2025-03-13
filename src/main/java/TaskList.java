@@ -1,5 +1,9 @@
 import java.util.ArrayList;
 
+/**
+ * Represents a list of tasks and provides methods to manage them,
+ * including adding, deleting, listing, marking, unmarking, and searching for tasks.
+ */
 public class TaskList {
     private ArrayList<Task> tasks;
 
@@ -7,6 +11,9 @@ public class TaskList {
         this.tasks = new ArrayList<>();
     }
 
+    /**
+     * Constructs an empty TaskList.
+     */
     public TaskList(ArrayList<Task> tasks) {
         this.tasks = tasks;
     }
@@ -15,6 +22,12 @@ public class TaskList {
         return tasks;
     }
 
+    /**
+     * Adds a new task to the list and displays a confirmation message.
+     *
+     * @param task The task to be added.
+     * @param ui The UI object used to display messages.
+     */
     public void addTask(Task task, Ui ui) {
         tasks.add(task);
         ui.showMessage("    ____________________________________________________________");
@@ -24,6 +37,14 @@ public class TaskList {
         ui.showMessage("    ____________________________________________________________");
     }
 
+
+    /**
+     * Deletes a task at the specified index and displays a confirmation message.
+     *
+     * @param index The index of the task to be deleted.
+     * @param ui The UI object used to display messages.
+     * @throws IndexOutOfBoundsException if the index is out of range.
+     */
     public void deleteTask(int index, Ui ui) {
         if (index < 0 || index >= tasks.size()) {
             throw new IndexOutOfBoundsException();
@@ -64,6 +85,13 @@ public class TaskList {
         ui.showMessage("    ____________________________________________________________");
     }
 
+    /**
+     * Unmarks a task at the specified index as not done and displays a confirmation message.
+     *
+     * @param index The index of the task to be unmarked.
+     * @param ui The UI object used to display messages.
+     * @throws IndexOutOfBoundsException if the index is out of range.
+     */
     public void unmarkTask(int index, Ui ui) {
         if (index < 0 || index >= tasks.size()) {
             throw new IndexOutOfBoundsException();
@@ -75,7 +103,13 @@ public class TaskList {
         ui.showMessage("       [" + t.getTaskType() + "][" + t.getStatusIcon() + "] " + t.description);
         ui.showMessage("    ____________________________________________________________");
     }
-
+    
+    /**
+     * Finds and displays tasks that contain the specified keyword in their description.
+     *
+     * @param keyword The keyword to search for in task descriptions.
+     * @param ui The UI object used to display messages.
+     */
     public void findTasks(String keyword, Ui ui) {
         ArrayList<Task> matchingTasks = new ArrayList<>();
     
