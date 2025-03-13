@@ -1,3 +1,6 @@
+/**
+ * Represents an event task with a start and end time.
+ */
 public class Event extends Task {
     private String start;
     private String end;
@@ -14,10 +17,20 @@ public class Event extends Task {
         return super.description + " (from: " + start + " to: " + end + ")";
     }
 
+    /**
+     * Gets the start time of the event.
+     *
+     * @return The start time as a string.
+     */
     public String getStart() {
         return start;
     }
-
+    
+    /**
+     * Gets the end time of the event.
+     *
+     * @return The end time as a string.
+     */
     public String getEnd() {
         return end;
     }

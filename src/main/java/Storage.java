@@ -5,6 +5,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Handles loading and saving of tasks to a file.
+ * Allows persistent storage of tasks between program runs.
+ */
 public class Storage {
     private final String filePath;
 
@@ -12,6 +16,12 @@ public class Storage {
         this.filePath = filePath;
     }
 
+    /**
+     * Loads tasks from the storage file.
+     *
+     * @return A list of tasks loaded from the file.
+     * @throws IOException If an error occurs while reading the file.
+     */
     public ArrayList<Task> loadTasks() throws IOException {
         ArrayList<Task> loadedTasks = new ArrayList<>();
 
@@ -33,7 +43,13 @@ public class Storage {
         return loadedTasks;
     }
 
-    //save
+
+    /**
+     * Saves the given list of tasks to the storage file.
+     *
+     * @param tasks The list of tasks to be saved.
+     * @throws IOException If an error occurs while writing to the file.
+     */
     public void saveTasks(ArrayList<Task> tasks) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             for (Task task : tasks) {
@@ -43,7 +59,12 @@ public class Storage {
         }
     }
 
-    //split into diff parts
+    /**
+     * Parses a line from the storage file into a Task object.
+     *
+     * @param line A line from the storage file.
+     * @return The corresponding Task object, or {@code null} if the format is invalid.
+     */
     private Task parseTaskLine(String line) {
         String[] parts = line.split("\\|");
         // Trim each part
@@ -85,6 +106,12 @@ public class Storage {
         return task;
     }
 
+    /**
+     * Converts a Task object into a string format suitable for storage.
+     *
+     * @param task The task to be converted.
+     * @return A formatted string representing the task.
+     */
     private String convertTaskToString(Task task) {
         StringBuilder sb = new StringBuilder();
         sb.append(task.getTaskType()).append("|")
