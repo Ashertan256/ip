@@ -1,4 +1,4 @@
-# Alex - your personaltask assistant
+# Alex - your personal task assistant
 
 This is a user guide on how to use _Alex_!
 
@@ -15,7 +15,7 @@ Alex is a basic task management tool! There are 3 types of tasks - Todos, Events
 
 ### Todos
 
-`todo watchmovie` - adds the todo "watchmovie" to the list <br>
+`todo movie` - adds the todo "movie" to the list <br>
 Format: `todo {task to do}` <br>
 
 ### Events
